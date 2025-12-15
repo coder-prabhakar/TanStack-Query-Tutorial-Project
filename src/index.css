@@ -1,0 +1,64 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-color: #17202a;
+}
+
+header {
+    background-color: #11171f;
+}
+
+header .container {
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+}
+
+header nav {
+    display: flex;
+    gap: 32px;
+}
+
+header nav .nav-item {
+    all: unset;
+    line-height: 70px;
+    box-sizing: border-box;
+}
+
+header nav .nav-item:hover {
+    cursor: pointer;
+    border-bottom: 4px solid white;
+}
+
+.container {
+    max-width: 1000px;
+    padding: 0px 32px;
+    margin: 0px auto;
+}
+
+main {
+    min-height: calc(100vh - 153px);
+    max-width: 1000px;
+    padding: 0px 32px;
+    margin: 0px auto;
+    padding: 32px 0px;
+}
+
+footer {
+    line-height: 60px;
+    background-color: #11171f;
+}
+
+.section-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.section-accordion li {
+    list-style-type: none;
+    background-color:#202d3b;
+    padding: 16px;
+    border-left: 2px solid white;
+}
