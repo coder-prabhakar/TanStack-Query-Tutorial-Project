@@ -1,25 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
-import { getData } from "../API/api";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { getPaginationData } from "../API/api";
 import { NavLink } from "react-router";
+import { useState } from "react";
 
 
 function FetchRQ() {
-    const getPostData = async () => {
-        try {
-            const res = await getData();
-            return res.status === 200 ? res.data : [];
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const [pageNumber, setPageNumber] = useState(1);
 
     const { data, isPending, isError, error } = useQuery({
-        queryKey: ["posts"],
-        queryFn: getPostData,
-        // gcTime: 1000,
-        staleTime: 300000,
-        // refetchInterval: 1000,
-        // refetchIntervalInBackground: true,
+        queryKey: ["posts", pageNumber],
+        queryFn: () => getPaginationData(pageNumber),
+        placeholderData: keepPreviousData,
     });
 
     if (isPending) return <main>Loading....</main>;
@@ -42,6 +33,21 @@ function FetchRQ() {
                     })
                 }
             </ul>
+
+            <div className="pagination-section container">
+                <button 
+                    disabled={pageNumber <= 1}
+                    onClick={() => setPageNumber((prev) => prev-1)}
+                >
+                    Prev
+                </button>
+                <h2>{pageNumber}</h2>
+                <button 
+                    onClick={() => setPageNumber((prev) => prev+1)}
+                >
+                    Next
+                </button>
+            </div>
         </main>
     )
 }
