@@ -1,5 +1,5 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getPaginationData } from "../API/api";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deletePost, getPaginationData, updateData } from "../API/api";
 import { NavLink } from "react-router";
 import { useState } from "react";
 
@@ -7,10 +7,34 @@ import { useState } from "react";
 function FetchRQ() {
     const [pageNumber, setPageNumber] = useState(1);
 
+    const queryClient = useQueryClient();
+
     const { data, isPending, isError, error } = useQuery({
         queryKey: ["posts", pageNumber],
         queryFn: () => getPaginationData(pageNumber),
         placeholderData: keepPreviousData,
+    });
+
+    // mutation function to delete the post
+    const deleteMutation = useMutation({
+        mutationFn: (id) => deletePost(id),
+        onSuccess: (res, postId) => {
+            console.log(res, postId);
+            queryClient.setQueryData(["posts", pageNumber], (data) => {
+                return data?.filter((post) => post.id !== postId);
+            });
+        },
+    });
+
+    // mutation function to update the post
+    const updateMutation = useMutation({
+        mutationFn: (id) => updateData(id),
+        onSuccess: (res, postId) => {
+            console.log(res, postId);
+            queryClient.setQueryData(["posts", pageNumber], (data) => {
+                return data?.map((post) => post.id === postId ? res.data : post );
+            });
+        },
     });
 
     if (isPending) return <main>Loading....</main>;
@@ -28,6 +52,8 @@ function FetchRQ() {
                                     <p>{id}. {title}</p>
                                     <p>{body}</p>
                                 </NavLink>
+                                <button onClick={() => deleteMutation.mutate(id) }>Delete</button>
+                                <button onClick={() => updateMutation.mutate(id) }>Update</button>
                             </li>
                         )
                     })

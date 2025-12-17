@@ -41,3 +41,13 @@ export const getPaginationData = async (pageNumber) => {
         console.log(error);
     }
 };
+
+// delete method
+export const deletePost = (id) => {
+    return api.delete(`/posts/${id}`);
+};
+
+// put method
+export const updateData = (id) => {
+    return api.patch(`/posts/${id}`, { title: "Prabhakar Kumar" });
+};
