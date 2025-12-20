@@ -44,6 +44,10 @@ main {
     margin: 0px auto;
 }
 
+main h1 {
+    text-align: center;
+}
+
 footer {
     line-height: 60px;
     background-color: #11171f;

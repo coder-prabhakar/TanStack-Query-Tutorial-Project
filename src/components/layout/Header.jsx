@@ -12,6 +12,7 @@ function Header() {
                     <NavLink to='/' className='nav-item'>HOME</NavLink>
                     <NavLink to='/trad' className='nav-item'>FETCHOLD</NavLink>
                     <NavLink to='/rq' className='nav-item'>FETCHRQ</NavLink>
+                    <NavLink to='/infinite-scroll' className='nav-item'>INFINITE SCROLL</NavLink>
                 </nav>
             </div>
         </header>
